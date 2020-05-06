@@ -19,8 +19,8 @@ mongoose.connect('mongodb://mongodb:27017/todoApp', {
 })
 
 var db = mongoose.connection
-db.on('error', () => {
-    console.log('---FAILED to connect to mongoose')
+db.on('error', (err) => {
+    console.log('---FAILED to connect to mongoose',err)
 })
 db.once('open', () => {
     console.log('+++ connected to mongoose')
