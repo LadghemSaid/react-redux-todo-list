@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const autoIncrement = require('mongoose-auto-increment')
-
+const http = require('http')
 const socketServer = require('socket.io')
 
 const app = express();
@@ -25,12 +25,11 @@ db.on('error', (err) => {
 db.once('open', () => {
     console.log('+++ connected to mongoose')
 })
-var serve = app.listen(3010);
-var io = require('socket.io').listen(serve,()=>{
+var serve = http.createServer(app);
+var io = socketServer(serve);
+serve.listen(3010, () => {
     console.log("+++Express Server with Socket Running!!!")
-
-});
-
+})
 
 
 /***************************************************************************************** */
