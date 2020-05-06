@@ -28,7 +28,7 @@ db.once('open', () => {
 
 var serve = http.createServer(app);
 var io = socketServer(serve);
-serve.listen(3000, () => {
+serve.listen(3010, () => {
     console.log("+++Express Server with Socket Running!!!")
 })
 
