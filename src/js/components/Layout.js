@@ -35,7 +35,7 @@ export class Layout extends React.Component {
         const {dispatch} = this.props
         this.state = {progress: 0};
 
-        socket = io.connect("https://s-website.ga/socket.io")
+        socket = io.connect("https://s-website.ga/")
         // console.log(socket)
         dispatch(loadInitialDataSocket(socket))
 
