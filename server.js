@@ -20,35 +20,34 @@ mongoose.connect('mongodb://localhost:27017/todoApp', {
 
 var db = mongoose.connection
 db.on('error', (err) => {
-    console.log('---FAILED to connect to mongoose',err)
+    console.log('--- Impossible de se connecter à mongoose',err)
 })
 db.once('open', () => {
-    console.log('+++ connected to mongoose')
+    console.log('+++ Connecter à mongoose')
 })
 var serve = http.createServer(app);
 var io = socketServer(serve);
-serve.listen(3010, () => {
-    console.log("+++Express Server with Socket Running!!!")
+//serve.listen(3010, () => {
+serve.listen(3000, () => {
+    console.log("+++ Express Server à l'écoute")
 })
 
 
 /***************************************************************************************** */
-/* Socket logic starts here																   */
-/***************************************************************************************** */
 const connections = [];
 io.on('connection', function (socket) {
-    console.log("Connected to Socket!!" + socket.id)
+    console.log("Un client se connecte à la socket - " + socket.id)
     connections.push(socket)
     socket.on('disconnect', function () {
-        console.log('Disconnected - ' + socket.id);
+        console.log('Un client se déconnecte de la socket - ' + socket.id);
     });
 
     var cursor = todoModel.find({}, (err, result) => {
         if (err) {
-            console.log("---GET failed!!")
+            console.log("--- GET failed!!")
         } else {
             socket.emit('initialList', result)
-            console.log("+++GET worked!! nbr : ", result.length)
+            console.log("+++GET worked!! nbr de todos : ", result.length)
         }
     })
     socket.on('addItem', (addData) => {
