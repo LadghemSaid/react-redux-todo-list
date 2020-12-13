@@ -36,7 +36,7 @@ export class Layout extends React.Component {
         this.state = {progress: 0};
 
        // socket = io.connect("https://s-website.ga/") prod
-        socket = io.connect("http://localhost:3000")
+        socket = io.connect("http://react-todo.s-website.ga:3000")
         // console.log(socket)
         dispatch(loadInitialDataSocket(socket))
 

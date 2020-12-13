@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  api:
+    container_name: react-redux-todo-list-api
+    build:
+      context: ./
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+        - "./server.js:/server.js"
+    ports:
+      - "3000:3000"
+    # environment:
+    #      VIRTUAL_HOST: react-todo.s-website.ga:3000
+    networks:
+      - backend
+
+  app:
+    container_name: react-redux-todo-list-app
+    # build:
+    #   context: ./docker/front/
+    #   dockerfile: Dockerfile.dev
+    build: .
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    expose:
+      - "80"
+    environment:
+      VIRTUAL_HOST: react-todo.s-website.ga
+    networks:
+      - nginx_main
+      - backend
+
+networks:
+  nginx_main:
+    external: true
+  backend:
+    external: true

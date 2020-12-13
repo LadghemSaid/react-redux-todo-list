@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const autoIncrement = require('mongoose-auto-increment')
 const http = require('http')
 const socketServer = require('socket.io')
+const cors = require('cors');
+const dotenv = require('dotenv').config();
 
 const app = express();
 
@@ -11,10 +13,12 @@ const todoModel = require('./models/todoModel')  //todo model
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use(cors())
 
 // MONGOOSE CONNECT
 // ===========================================================================
-mongoose.connect('mongodb://localhost:27017/todoApp', {
+console.log(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mongodb/?authSource=admin`)
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mongodb/?authSource=admin`, {
     useMongoClient: true,
 })
 
@@ -28,7 +32,7 @@ db.once('open', () => {
 var serve = http.createServer(app);
 var io = socketServer(serve);
 //serve.listen(3010, () => {
-serve.listen(3000, () => {
+serve.listen(process.env.APP_PORT, () => {
     console.log("+++ Express Server à l'écoute")
 })
 
